@@ -1,5 +1,5 @@
 {
-  "name": "backend-crud",
+  "name": "pepper-cloud-blog-node",
   "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "Manoj Kumar R",
-  "description": "",
+  "description": "Pepper cloud blog -- back-end",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
@@ -17,5 +17,13 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manukudur/pepper-cloud-blog-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manukudur/pepper-cloud-blog-node/issues"
+  },
+  "homepage": "https://github.com/manukudur/pepper-cloud-blog-node#readme"
 }
