@@ -11,7 +11,7 @@ app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 
 // Imported ROUTES
-app.use("/api/blogs", require("./routes/blog"));
+app.use("/api/blog", require("./routes/blog"));
 
 // ROUTES
 app.get("/api/", (req, res) => {

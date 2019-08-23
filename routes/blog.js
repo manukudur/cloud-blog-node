@@ -23,7 +23,7 @@ router.get("/:blogId", async (req, res) => {
 router.delete("/:blogId", async (req, res) => {
   try {
     const removedBlog = await Blog.deleteOne({ _id: req.params.blogId });
-    res.json(removedBlog);
+    res.json("Deleted");
   } catch (error) {
     res.json({ message: error });
   }
@@ -42,13 +42,13 @@ router.patch("/:blogId", async (req, res) => {
       }
     );
     // res.json(updatedBlog);
-    res.redirect("/api/blogs/" + req.params.blogId);
+    res.json({ message: "Updated" });
   } catch (error) {
     res.json({ message: error });
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/create", (req, res) => {
   const blog = new Blog({
     title: req.body.title,
     desc: req.body.desc,
@@ -57,7 +57,7 @@ router.post("/", (req, res) => {
   blog
     .save()
     .then(data => {
-      res.status(200).json(data);
+      res.status(200).json({ message: "Created" });
     })
     .catch(err => {
       res.json({ message: err });
