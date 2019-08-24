@@ -23,7 +23,7 @@ router.get("/:blogId", async (req, res) => {
 router.delete("/:blogId", async (req, res) => {
   try {
     const removedBlog = await Blog.deleteOne({ _id: req.params.blogId });
-    res.json("Deleted");
+    res.json({ message: "Deleted" });
   } catch (error) {
     res.json({ message: error });
   }
