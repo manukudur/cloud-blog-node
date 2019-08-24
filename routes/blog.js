@@ -57,7 +57,7 @@ router.post("/create", (req, res) => {
   blog
     .save()
     .then(data => {
-      res.status(200).json({ message: "Created", id: data._id });
+      res.status(200).json({ message: "Created", createdBlog: data });
     })
     .catch(err => {
       res.json({ message: err });
