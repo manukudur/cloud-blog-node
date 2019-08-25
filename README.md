@@ -15,3 +15,7 @@
 2. Navigate to project folder in terminal/command-prompt and run "npm install" (or) if yarn installed in your computer run "yarn install".
 
 3. After installation of all packages run "npm start".
+
+---
+
+This project is deployed in https://manukudur.herokuapp.com/api/
