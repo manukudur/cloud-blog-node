@@ -7,9 +7,7 @@ const DB_URL =
 const app = express();
 
 // Middlewares
-app.use(
-  cors({ origin: "https://manukudur.github.io/pepper-cloud-blog-angular/" })
-);
+app.use(cors());
 app.use(express.json());
 
 // Imported ROUTES
