@@ -7,7 +7,9 @@ const DB_URL =
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: "http://localhost:4200" }));
+app.use(
+  cors({ origin: "https://manukudur.github.io/pepper-cloud-blog-angular/" })
+);
 app.use(express.json());
 
 // Imported ROUTES
