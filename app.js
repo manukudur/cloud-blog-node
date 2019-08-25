@@ -5,7 +5,7 @@ const DB_URL =
   "mongodb+srv://guru:guru123@crudcluster-4tslz.mongodb.net/test?retryWrites=true&w=majority";
 
 const app = express();
-
+const port = process.env.PORT || "3000";
 // Middlewares
 app.use(cors());
 app.use(express.json());
@@ -31,6 +31,6 @@ mongoose
   });
 
 // Listening port
-app.listen(process.env.PORT, () => {
-  console.log("server is listening at port: " + process.env.PORT);
+app.listen(port, () => {
+  console.log("server is listening at port: " + port);
 });
