@@ -1,8 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-// const DB_URL =
-//   "mongodb+srv://guru:guru123@crudcluster-4tslz.mongodb.net/test?retryWrites=true&w=majority";
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || "3000";
