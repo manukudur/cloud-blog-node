@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const DB_URL =
-  "mongodb+srv://guru:guru123@crudcluster-4tslz.mongodb.net/test?retryWrites=true&w=majority";
+// const DB_URL =
+//   "mongodb+srv://guru:guru123@crudcluster-4tslz.mongodb.net/test?retryWrites=true&w=majority";
 
 const app = express();
 const port = process.env.PORT || "3000";
