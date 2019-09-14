@@ -4,7 +4,7 @@ const Blog = require("../models/Blog");
 
 router.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().sort({ created: -1 });
     res.json(blogs);
   } catch (error) {
     res.json({ message: error });
