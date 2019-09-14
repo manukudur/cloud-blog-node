@@ -14,7 +14,9 @@
 
 2. Navigate to project folder in terminal/command-prompt and run "npm install" (or) if yarn installed in your computer run "yarn install".
 
-3. After installation of all packages run "npm start".
+3. create a file with .env extension. Inside that file type DB_URL=<your_mongoDB_address>.
+
+4. "npm start".
 
 ---
 
