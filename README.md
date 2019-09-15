@@ -10,11 +10,14 @@
 
 ## Steps to Install and Run
 
-1. Download zip file and extract (or) open terminal/command-prompt and run "git clone https://github.com/manukudurpepper-cloud-blog-node.git" if git installed.
+1. Download zip file and extract (or) open terminal/command-prompt and run ```git clone https://github.com/manukudurpepper-cloud-blog-node.git``` if git installed.
 
-2. Navigate to project folder in terminal/command-prompt and run "npm install" (or) if yarn installed in your computer run "yarn install".
+2. Navigate to project folder in terminal/command-prompt and run ```npm install``` (or) if yarn installed in your computer run ```yarn install```.
 
-3. create a file with .env extension. Inside that file type DB_URL=<your_mongoDB_address>.
+3. create ```.env``` file in current directory with following content.
+```
+    DB_URL="YOUR_MONGODB_URL_"
+```
 
 4. "npm start".
 
