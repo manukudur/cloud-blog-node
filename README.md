@@ -19,7 +19,7 @@
     DB_URL="YOUR_MONGODB_URL_"
 ```
 
-4. "npm start".
+4. ```npm start```.
 
 ---
 
