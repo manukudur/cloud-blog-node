@@ -8,8 +8,8 @@ const blogSchema = mongoose.Schema({
   },
   title: {
     type: String,
-    trim: true,
-    require: true
+    require: true,
+    trim: true
   },
   desc: {
     type: String,
