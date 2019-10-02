@@ -1,20 +1,22 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || "3000";
 // Middlewares
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Imported ROUTES
-app.use("/api/blog", require("./routes/blog"));
-app.use("/api/user", require("./routes/user"));
+app.use("/api/", require("./src/routes/blog"));
+app.use("/api/user/", require("./src/routes/user"));
+app.use("/api/user/", require("./src/auth/login"));
+app.use("/api/user/", require("./src/validations/unique-check"));
 
 // ROUTES
-app.get("/api/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     message: "api's are working"
   });
@@ -22,16 +24,17 @@ app.get("/api/", (req, res) => {
 
 // DB Connection
 mongoose
-  .connect(process.env.DB_URL, { useNewUrlParser: true })
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
   .then(() => {
     console.log("connected to database...!");
   })
   .catch(err => {
     console.log("connection failed " + err);
   });
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
 
 // Listening port
 app.listen(port, () => {

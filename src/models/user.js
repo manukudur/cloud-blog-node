@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
     maxlength: 50,
     required: [true, "first name is required"],
     match: [
-      /^[a-zA-Z\-]+$/,
+      /^[a-zA-Z ]*$/,
       "first name should be only alphabetical letters, A–Z or a–z."
     ]
   },
@@ -43,22 +43,23 @@ const userSchema = mongoose.Schema({
     type: String,
     trim: true,
     lowercase: true,
-    minlength: [1, "last name must be at least 1 characters long"],
+    minlength: [1, "last name must be at least 1 character"],
     maxlength: 50,
     required: [true, "last name is required"],
     match: [
-      /^[a-zA-Z\-]+$/,
+      /^[a-zA-Z ]*$/,
       "last name should be only alphabetical letters, A–Z or a–z."
     ]
   },
   dob: {
     type: Date,
-    required: [true, "dob is required, eg:(yyyy-mm-dd)"]
+    required: [true, "dob is required, eg:(mm-dd-yyyy)"]
   },
   phone_number: {
     type: Number,
     required: [true, "phone number is required"],
     unique: true,
+    trim: true,
     validate: {
       validator: function(number) {
         return /^\d{10}$/.test(number);
