@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const blogs = await Blog.find()
-      .select("title desc username image_url")
+      .select("title desc creator created_time image_url")
       .sort({ created_time: -1 });
     res.status(200).json(blogs);
   } catch (error) {
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id).select(
-      "title desc username image_url"
+      "title desc creator created_time image_url"
     );
     if (!blog) {
       return res.status(404).json({ message: "data not found" });

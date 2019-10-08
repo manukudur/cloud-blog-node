@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
             { expiresIn: "1h" },
             { algorithm: "HS256" }
           );
-          return res.status(200).json({ token: token });
+          return res.status(200).json({ user: user.username, token: token });
         }
         // if password is not valid
         res.status(400).json({ message: `invalid credentials` });
