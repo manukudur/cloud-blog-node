@@ -37,7 +37,7 @@ router.patch("/:blogId", async (req, res) => {
         $set: {
           title: req.body.title,
           desc: req.body.desc,
-          imageUrl: req.body.imageUrl
+          image_url: req.body.image_url
         }
       }
     );
@@ -52,7 +52,7 @@ router.post("/create", (req, res) => {
   const blog = new Blog({
     title: req.body.title,
     desc: req.body.desc,
-    imageUrl: req.body.imageUrl
+    image_url: req.body.image_url
   });
   blog
     .save()
