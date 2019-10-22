@@ -9,6 +9,8 @@ module.exports = (req, res, next) => {
     next();
   } catch (err) {
     // err
-    res.status(401).json({ message: "login required" });
+    res
+      .status(401)
+      .json({ message: "session expired please re-login and try again" });
   }
 };

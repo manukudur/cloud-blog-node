@@ -13,7 +13,7 @@ router.get("/:username", async (req, res) => {
     if (!user) return res.status(404).json({ message: "user not exists" });
 
     const blogs = await Blog.find({ creator: req.params.username })
-      .select("title desc username image_url")
+      .select("title desc creator created_time image_url")
       .sort({ created_time: -1 });
     res.status(200).json(blogs);
   } catch (error) {
