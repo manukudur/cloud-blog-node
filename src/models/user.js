@@ -62,9 +62,9 @@ const userSchema = mongoose.Schema({
     trim: true,
     validate: {
       validator: function(number) {
-        return /^\d{10}$/.test(number);
+        return /^[6-9]\d{9}$/.test(number);
       },
-      message: () => `phone number should be 10 digits, eg:(9012345678)`
+      message: () => `phone number should be valid`
     }
   },
   password: {

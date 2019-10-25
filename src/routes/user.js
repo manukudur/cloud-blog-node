@@ -1,10 +1,12 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 // LOCAL IMPORTS
 const User = require("../models/user");
 const Blog = require("../models/blog");
-const { signupValidation } = require("../validations/user");
+const { signupValidation, passwordUpdate } = require("../validations/user");
+const verify = require("../middlewares/verify-auth");
 
 router.get("/:username", async (req, res) => {
   // checking username is valid or not
@@ -19,6 +21,43 @@ router.get("/:username", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "something went wrong" });
   }
+});
+
+router.post("/changepassword", verify, async (req, res) => {
+  const { value, error } = passwordUpdate(req.body);
+  if (error) {
+    return res.status(400).json({ message: "pattern not matching" });
+  }
+  User.findOne({ username: req.user.username })
+    .then(user => {
+      bcrypt.compare(value.old_password, user.password).then(result => {
+        if (result && value.new_password === value.confirm_password) {
+          bcrypt.hash(value.new_password, 10, function(err, hash) {
+            if (err) {
+              return res
+                .status(500)
+                .json({ message: "something went wrong, try again" });
+            }
+            User.findOneAndUpdate(
+              { username: req.user.username },
+              { $set: { password: hash } },
+              { useFindAndModify: false }
+            ).then(data => {
+              if (data) {
+                res
+                  .status(200)
+                  .json({ message: "Password Updated sucessfully" });
+              }
+            });
+          });
+        } else {
+          res.status(500).json({ message: "something went wrong, try again" });
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).json({ message: "something went wrong, try again" });
+    });
 });
 
 router.post("/signup", (req, res) => {

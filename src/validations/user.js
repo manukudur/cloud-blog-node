@@ -58,5 +58,31 @@ loginValidation = data => {
   return schema.validate(data);
 };
 
+// Password Update
+passwordUpdate = data => {
+  const schema = Joi.object({
+    old_password: Joi.string()
+      .required()
+      .min(6)
+      .pattern(
+        /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"])[0-9A-Za-z" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]{6,1024}$/
+      ),
+    new_password: Joi.string()
+      .required()
+      .min(6)
+      .pattern(
+        /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"])[0-9A-Za-z" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]{6,1024}$/
+      ),
+    confirm_password: Joi.string()
+      .required()
+      .min(6)
+      .pattern(
+        /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"])[0-9A-Za-z" !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]{6,1024}$/
+      )
+  });
+  return schema.validate(data);
+};
+
 module.exports.signupValidation = signupValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.passwordUpdate = passwordUpdate;
