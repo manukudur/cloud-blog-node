@@ -40,6 +40,20 @@ const signupValidation = data => {
   return schema.validate(data);
 };
 
+// username Validation
+const usernameValidation = data => {
+  const schema = Joi.object({
+    username: Joi.string()
+      .required()
+      .alphanum()
+      .lowercase()
+      .min(4)
+      .max(50)
+      .trim()
+  });
+  return schema.validate(data);
+};
+
 // Login Validation
 loginValidation = data => {
   const schema = Joi.object({
@@ -86,3 +100,4 @@ passwordUpdate = data => {
 module.exports.signupValidation = signupValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.passwordUpdate = passwordUpdate;
+module.exports.usernameValidation = usernameValidation;

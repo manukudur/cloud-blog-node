@@ -1,12 +1,29 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const router = express.Router();
 
 // LOCAL IMPORTS
 const User = require("../models/user");
 const Blog = require("../models/blog");
-const { signupValidation, passwordUpdate } = require("../validations/user");
+const {
+  signupValidation,
+  passwordUpdate,
+  usernameValidation
+} = require("../validations/user");
 const verify = require("../middlewares/verify-auth");
+
+router.get("/profile", verify, async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.user.username }).select(
+      "first_name last_name username email_id phone_number dob"
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+});
 
 router.get("/:username", async (req, res) => {
   // checking username is valid or not
@@ -23,7 +40,38 @@ router.get("/:username", async (req, res) => {
   }
 });
 
-router.post("/changepassword", verify, async (req, res) => {
+router.post("/updateUsername", verify, async (req, res) => {
+  const { value, error } = usernameValidation(req.body);
+  if (error) {
+    return res.status(400).json({ message: "pattern not matching" });
+  }
+  try {
+    const user = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { $set: { username: value.username } },
+      { new: true, useFindAndModify: false }
+    ).select("username");
+    await Blog.updateMany(
+      { creator: req.user.username },
+      { $set: { creator: value.username } }
+    );
+    const token = jwt.sign(
+      { username: value.username },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "1h" },
+      { algorithm: "HS256" }
+    );
+    res.status(200).json({
+      user: user.username,
+      token: token,
+      message: "Username Updated sucessfully"
+    });
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+});
+
+router.post("/changePassword", verify, async (req, res) => {
   const { value, error } = passwordUpdate(req.body);
   if (error) {
     return res.status(400).json({ message: "pattern not matching" });
@@ -58,6 +106,26 @@ router.post("/changepassword", verify, async (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "something went wrong, try again" });
     });
+});
+
+router.post("/delete", verify, async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    if (!user) return res.status(404).json({ message: "user not exists" });
+
+    bcrypt.compare(req.body.password, user.password).then(async result => {
+      if (result) {
+        await User.findOneAndDelete({ username: req.user.username });
+        await Blog.deleteMany({ creator: req.user.username });
+        return res.status(200).json({
+          message: "User Profile and User Blogs are removed from database"
+        });
+      }
+      return res.status(400).json({ message: "Invalid Password" });
+    });
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong" });
+  }
 });
 
 router.post("/signup", (req, res) => {
