@@ -10,7 +10,8 @@ const Blog = require("../models/blog");
 const {
   signupValidation,
   passwordUpdate,
-  usernameValidation
+  usernameValidation,
+  profileValidation
 } = require("../validations/user");
 const verify = require("../middlewares/verify-auth");
 
@@ -50,13 +51,58 @@ router.post("/updateUsername", verify, async (req, res) => {
       { username: req.user.username },
       { $set: { username: value.username } },
       { new: true, useFindAndModify: false }
-    ).select("username");
+    ).select("username email_id phone_number");
     await Blog.updateMany(
       { creator: req.user.username },
       { $set: { creator: value.username } }
     );
     const token = jwt.sign(
-      { username: value.username },
+      {
+        username: user.username,
+        email_id: user.email_id,
+        phone_number: user.phone_number
+      },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "1h" },
+      { algorithm: "HS256" }
+    );
+    res.status(200).json({
+      user: user.username,
+      token: token,
+      message: "Username Updated sucessfully"
+    });
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+});
+
+router.post("/updateProfile", verify, async (req, res) => {
+  const { value, error } = profileValidation(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: "valid data required" });
+  }
+  try {
+    const user = await User.findOneAndUpdate(
+      { username: req.user.username },
+      {
+        $set: {
+          first_name: value.first_name,
+          last_name: value.last_name,
+          dob: value.dob,
+          email_id: value.email_id,
+          phone_number: value.phone_number
+        }
+      },
+      { new: true, useFindAndModify: false }
+    ).select("username email_id phone_number");
+
+    const token = jwt.sign(
+      {
+        username: user.username,
+        email_id: user.email_id,
+        phone_number: user.phone_number
+      },
       process.env.TOKEN_SECRET,
       { expiresIn: "1h" },
       { algorithm: "HS256" }

@@ -26,7 +26,11 @@ router.post("/login", (req, res) => {
         // if password is valid
         if (result) {
           const token = jwt.sign(
-            { username: user.username },
+            {
+              username: user.username,
+              email_id: user.email_id,
+              phone_number: user.phone_number
+            },
             process.env.TOKEN_SECRET,
             { expiresIn: "1h" },
             { algorithm: "HS256" }
@@ -38,7 +42,7 @@ router.post("/login", (req, res) => {
       });
     })
     .catch(err => {
-      res.status(400).json("server error");
+      res.status(400).json({ message: "server error" });
     });
 });
 module.exports = router;

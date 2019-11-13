@@ -40,6 +40,32 @@ const signupValidation = data => {
   return schema.validate(data);
 };
 
+// Profile Validation
+const profileValidation = data => {
+  const schema = Joi.object({
+    email_id: Joi.string()
+      .required()
+      .email()
+      .lowercase()
+      .trim(),
+    first_name: Joi.string()
+      .required()
+      .lowercase()
+      .min(3)
+      .max(50)
+      .trim(),
+    last_name: Joi.string()
+      .required()
+      .trim()
+      .lowercase()
+      .min(1)
+      .max(50),
+    dob: Joi.date().required(),
+    phone_number: Joi.number().required()
+  });
+  return schema.validate(data);
+};
+
 // username Validation
 const usernameValidation = data => {
   const schema = Joi.object({
@@ -101,3 +127,4 @@ module.exports.signupValidation = signupValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.passwordUpdate = passwordUpdate;
 module.exports.usernameValidation = usernameValidation;
+module.exports.profileValidation = profileValidation;

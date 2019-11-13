@@ -21,8 +21,24 @@ router.post("/signup_check", (req, res) => {
 });
 
 router.post("/update_check", verify, (req, res) => {
-  if (req.user.username === req.body.username) {
-    return res.status(200).json([]);
+  switch (req.body.for) {
+    case "username":
+      if (req.user.username === req.body.username) {
+        return res.status(200).json([]);
+      }
+      break;
+    case "email":
+      if (req.user.email_id === req.body.email_id) {
+        return res.status(200).json([]);
+      }
+      break;
+    case "phone":
+      if (req.user.phone_number === req.body.phone_number) {
+        return res.status(200).json([]);
+      }
+      break;
+    default:
+      break;
   }
   User.findOne({
     $or: [
