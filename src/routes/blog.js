@@ -7,7 +7,7 @@ const verify = require("../middlewares/verify-auth");
 
 const router = express.Router();
 
-router.get("/", verify, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const blogs = await Blog.find()
       .select("title desc creator created_time image_url")
@@ -18,7 +18,7 @@ router.get("/", verify, async (req, res) => {
   }
 });
 
-router.get("/:id", verify, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id).select(
       "title desc creator created_time image_url"
